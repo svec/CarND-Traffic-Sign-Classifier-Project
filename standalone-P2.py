@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 
+#Training, Validation Accuracy = 0.506 0.456
+#Training, Validation Accuracy = 0.710 0.625
+#Training, Validation Accuracy = 0.807 0.727
+#Training, Validation Accuracy = 0.869 0.778
+#Training, Validation Accuracy = 0.909 0.805
+#Training, Validation Accuracy = 0.920 0.818
+#Training, Validation Accuracy = 0.938 0.845
+#Training, Validation Accuracy = 0.948 0.859
+training_accuracy = [0.506, 0.710, 0.807, 0.869, 0.909, 0.920, 0.938, 0.948] 
+validation_accuracy = [0.456, 0.625, 0.727, 0.778, 0.805, 0.818, 0.845, 0.859]
+
 #importing some useful packages
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -9,6 +20,22 @@ import statistics
 #%matplotlib inline
 
 import math
+
+def plot_with_labels(data, label):
+    xes = list(range(1, len(data)+1))
+    plt.plot(xes, data, label=label, marker='o')
+    plt.ylim(0,1)
+    #plt.xlim(1,len(data)+1)
+    plt.legend()
+    for index,data_value in zip(xes, data):
+        plt.annotate(str(data_value), xy=(index, data_value), xytext=(10,10), textcoords='offset points')
+
+def test_acc():
+    plot_with_labels(training_accuracy, "training")
+    plot_with_labels(validation_accuracy, "validation")
+    plt.grid(True)
+    plt.xlabel("epoch")
+    plt.show()
 
 def plot_hist_rgb(image):
     color = ('b','g','r')
@@ -78,24 +105,25 @@ def convert_to_YUV(array_of_RGB_images):
 
     return yuv, y
 
-# 12203 and 16516 are also nice images
-images = np.array([X_train[7755], X_train[20865]])
-images_yuv, images_y = convert_to_YUV(images)
+def test_yuv():
+    # 12203 and 16516 are also nice images
+    images = np.array([X_train[7755], X_train[20865]])
+    images_yuv, images_y = convert_to_YUV(images)
 
-pltcols = 2
-pltrows = 3
+    pltcols = 2
+    pltrows = 3
+    
+    plt.subplot(pltrows,pltcols,1)
+    plt.imshow(images[0])
+    plt.subplot(pltrows,pltcols,2)
+    plt.imshow(images[1])
+    plt.subplot(pltrows,pltcols,3)
+    plt.imshow(images_yuv[0])
+    plt.subplot(pltrows,pltcols,4)
+    plt.imshow(images_yuv[1])
+    plt.subplot(pltrows,pltcols,5)
+    plt.imshow(images_y[0])
+    plt.subplot(pltrows,pltcols,6)
+    plt.imshow(images_y[1])
 
-plt.subplot(pltrows,pltcols,1)
-plt.imshow(images[0])
-plt.subplot(pltrows,pltcols,2)
-plt.imshow(images[1])
-plt.subplot(pltrows,pltcols,3)
-plt.imshow(images_yuv[0])
-plt.subplot(pltrows,pltcols,4)
-plt.imshow(images_yuv[1])
-plt.subplot(pltrows,pltcols,5)
-plt.imshow(images_y[0])
-plt.subplot(pltrows,pltcols,6)
-plt.imshow(images_y[1])
-
-plt.show()
+    plt.show()
