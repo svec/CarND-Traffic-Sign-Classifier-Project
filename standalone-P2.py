@@ -28,7 +28,7 @@ def plot_with_labels(data, label):
     #plt.xlim(1,len(data)+1)
     plt.legend()
     for index,data_value in zip(xes, data):
-        plt.annotate(str(data_value), xy=(index, data_value), xytext=(10,10), textcoords='offset points')
+        plt.annotate(str(round(data_value,2)), xy=(index, data_value), xytext=(10,10), textcoords='offset points')
 
 def test_acc():
     plot_with_labels(training_accuracy, "training")
