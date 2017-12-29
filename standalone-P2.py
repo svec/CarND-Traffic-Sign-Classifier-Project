@@ -152,9 +152,10 @@ def test_gray():
     plt.imshow(images[1])
 
     plt.subplot(pltrows,pltcols,3)
-    plt.imshow(images_gray[0], cmap='gray')
+    plt.imshow(images_gray[0].squeeze(), cmap='gray')
     plt.subplot(pltrows,pltcols,4)
-    plt.imshow(images_gray[1], cmap='gray')
+    plt.imshow(images_gray[1].squeeze(), cmap='gray')
+    plt.show()
 
 
 images = np.array([X_train[7755], X_train[20865]])
