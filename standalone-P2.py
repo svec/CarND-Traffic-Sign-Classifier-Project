@@ -94,6 +94,18 @@ print("Number of testing examples =", n_test)
 print("Image data shape =", image_shape)
 print("Number of classes =", n_classes)
 
+def convert_to_gray(array_of_RGB_images):
+
+    gray = np.empty((array_of_RGB_images.shape[0], array_of_RGB_images.shape[1], array_of_RGB_images.shape[2]))
+
+    for index, image in enumerate(array_of_RGB_images):
+        gray[index] = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+
+    gray = np.expand_dims(gray, axis=3)
+
+    return gray
+
+
 def convert_to_YUV(array_of_RGB_images):
 
     yuv = np.empty_like(array_of_RGB_images)
@@ -107,7 +119,6 @@ def convert_to_YUV(array_of_RGB_images):
 
 def test_yuv():
     # 12203 and 16516 are also nice images
-    images = np.array([X_train[7755], X_train[20865]])
     images_yuv, images_y = convert_to_YUV(images)
 
     pltcols = 2
@@ -128,11 +139,22 @@ def test_yuv():
 
     plt.show()
 
+def test_gray():
+    images_gray = convert_to_gray(images)
 
-# Original with LeNet network
-2017-12-26 23:56:58.685033
-training_accuracies= [0.7878387310305609, 0.88856001605644708, 0.93117618315342998, 0.95425155886548929, 0.96103336309618625, 0.96968303692026037, 0.97913733161815664, 0.97689588786425297, 0.97919480449978846, 0.98068910029575829]
-validation_accuracies= [0.67959183635625164, 0.77664399130814743, 0.8043083903470547, 0.82879818604916944, 0.83696145105794439, 0.85328798169722098, 0.87120181416708331, 0.85782312963014284, 0.85759637166583347, 0.86439909305161633]
-final_training_accuracy=   0.98
-final_validation_accuracy= 0.86
-Test_Accuracy = 0.859
+    print("images_gray shape:", images_gray.shape)
+    pltcols = 2
+    pltrows = 2
+    
+    plt.subplot(pltrows,pltcols,1)
+    plt.imshow(images[0])
+    plt.subplot(pltrows,pltcols,2)
+    plt.imshow(images[1])
+
+    plt.subplot(pltrows,pltcols,3)
+    plt.imshow(images_gray[0], cmap='gray')
+    plt.subplot(pltrows,pltcols,4)
+    plt.imshow(images_gray[1], cmap='gray')
+
+
+images = np.array([X_train[7755], X_train[20865]])
