@@ -17,6 +17,7 @@ import matplotlib.image as mpimg
 import numpy as np
 import cv2
 import statistics
+import random
 #%matplotlib inline
 
 import math
@@ -157,5 +158,61 @@ def test_gray():
     plt.imshow(images_gray[1].squeeze(), cmap='gray')
     plt.show()
 
+def test_shifting(images):
+    num_images_to_create = 5
+
+    shifted = np.empty((10, images.shape[1], images.shape[2], images.shape[3]))
+
+    print("shifted shape:", shifted.shape)
+
+    possible_offsets = (-4, -3, -2, -1, 1, 2, 3, 4)
+
+    for ii in range(num_images_to_create):
+        y_offset = random.choice(possible_offsets)
+        x_offset = random.choice(possible_offsets)
+        shifted[ii] = np.roll(images[0], (y_offset, x_offset), axis=(0,1))
+        # np.roll() shifts the pixels around the edge of the image, so we need to
+        # set the pixels that rolled around the edge to black.
+        if y_offset > 0:
+            clear_y_start = 0
+            clear_y_stop = y_offset
+        else:
+            clear_y_start = y_offset
+            clear_y_stop = shifted[ii].shape[0]
+        if x_offset > 0:
+            clear_x_start = 0
+            clear_x_stop = x_offset
+        else:
+            clear_x_start = x_offset
+            clear_x_stop = shifted[ii].shape[1]
+
+        shifted[ii][clear_y_start:clear_y_stop:1,:,:] = 255
+        shifted[ii][:,clear_x_start:clear_x_stop:1,:] = 255
+        print("y, x offset:", y_offset, x_offset)
+        #y[index] = yuv[index][:,:,0]
+
+    pltcols = 2
+    pltrows = num_images_to_create+1
+    
+    plt.subplot(pltrows,pltcols,1)
+    plt.imshow(images[0].squeeze(), cmap='gray')
+    plt.subplot(pltrows,pltcols,2)
+    plt.imshow(images[1].squeeze(), cmap='gray')
+
+    plt.subplot(pltrows,pltcols,3)
+    plt.imshow(shifted[0].squeeze(), cmap='gray')
+    plt.subplot(pltrows,pltcols,5)
+    plt.imshow(shifted[1].squeeze(), cmap='gray')
+    plt.subplot(pltrows,pltcols,7)
+    plt.imshow(shifted[2].squeeze(), cmap='gray')
+    plt.subplot(pltrows,pltcols,9)
+    plt.imshow(shifted[3].squeeze(), cmap='gray')
+    plt.subplot(pltrows,pltcols,11)
+    plt.imshow(shifted[4].squeeze(), cmap='gray')
+    plt.show()
+
 
 images = np.array([X_train[7755], X_train[20865]])
+images_gray = convert_to_gray(images)
+test_shifting(images_gray)
+
