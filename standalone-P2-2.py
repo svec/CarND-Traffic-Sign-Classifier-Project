@@ -63,7 +63,7 @@ counts = Counter(y_train)
 
 #X_train_rgb, y_train = shuffle(X_train_rgb, y_train)
 
-random.seed(42)
+#random.seed(42)
 
 g_subplot_cols = 0
 g_subplot_rows = 0
@@ -167,6 +167,7 @@ def add_extra_images():
                 new_images[extra] = new_image
 
             X_train_actual = np.concatenate((X_train_actual, new_images))
+            y_train = np.concatenate((y_train, np.full(image_count_to_create, sign_class_number)))
 
             modified_orig_count = int(extra / original_sign_count) + 1
             #print("class:", sign_class_number)
@@ -183,6 +184,7 @@ def add_extra_images():
                 print("new means:      {:.3f} {:.3f}".format(np.mean(X_train_actual[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii]), np.mean(X_train_actual[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii+1])))
                 print("new max:        {:.3f} {:.3f}".format(np.max(X_train_actual[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii]), np.mean(X_train_actual[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii+1])))
                 print("new min:        {:.3f} {:.3f}".format(np.min(X_train_actual[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii]), np.mean(X_train_actual[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii+1])))
+                print("y class:", y_train[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii], y_train[X_train_actual_start_concat_index+(sign_class_counts*ii)+ii+1])
 
             X_train_actual_start_concat_index = X_train_actual_start_concat_index + image_count_to_create
             plt.show()
@@ -241,8 +243,54 @@ else:
     input_color_depth = 1
 print("color depth:", input_color_depth)
 
-add_extra_images()
+#add_extra_images()
 
 print("final shape of X_train_actual, y_train:", X_train_actual.shape, y_train.shape)
+
+###################################################################
+import matplotlib
+import matplotlib.image as mpimg
+import math
+
+file_dir = "images-from-the-web"
+
+file_class_mapping = { 
+    "Arterial-priority.png": 12,
+    "right-of-way.png": 11,
+    "Do-Not-Enter.png": 17,
+    "caution.png" : 18,
+    "stop.png": 14,
+    "work-and-speed-30.png": 1,
+    "elderly-crossing.png": -1,
+    "speed-130.png": -1,
+}
+
+found_images = np.empty((len(file_class_mapping), 32, 32, 3), dtype=np.uint8)
+
+num_cols = 5
+num_rows = math.ceil(len(file_class_mapping)/num_cols)
+subplot_setup(num_cols, num_rows)
+
+for index, (filename, class_number) in enumerate(file_class_mapping.items()):
+    print(index, filename, class_number)
+    found_images[index] = cv2.imread(file_dir + "/" + filename, cv2.IMREAD_COLOR)
+    found_images[index] = cv2.cvtColor(found_images[index], cv2.COLOR_BGR2RGB)
+    subplot_next(found_images[index])
+
+plt.show()
+
+cv2.GaussianBlur(found_images[0], (5, 5), 0)
+
+found_images_gray = convert_to_gray(found_images)
+
+# Poor-man's normalization.
+found_images_gray = (found_images_gray-128)/128
+
+subplot_setup(num_cols, num_rows)
+
+for image in found_images_gray:
+    subplot_next(image)
+
+plt.show()
 
 print('done')
