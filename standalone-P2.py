@@ -163,7 +163,7 @@ def test_shifting(images):
 
     shifted = np.empty((10, images.shape[1], images.shape[2], images.shape[3]))
 
-    print("shifted shape:", shifted.shape)
+    print("image, shifted shape:", images[0].shape, shifted.shape)
 
     possible_offsets = (-4, -3, -2, -1, 1, 2, 3, 4)
 
@@ -189,7 +189,6 @@ def test_shifting(images):
         shifted[ii][clear_y_start:clear_y_stop:1,:,:] = 255
         shifted[ii][:,clear_x_start:clear_x_stop:1,:] = 255
         print("y, x offset:", y_offset, x_offset)
-        #y[index] = yuv[index][:,:,0]
 
     pltcols = 2
     pltrows = num_images_to_create+1
@@ -215,4 +214,3 @@ def test_shifting(images):
 images = np.array([X_train[7755], X_train[20865]])
 images_gray = convert_to_gray(images)
 test_shifting(images_gray)
-
