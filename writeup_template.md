@@ -28,6 +28,11 @@ The goals / steps of this project are the following:
 [priority_road]: ./images-from-the-web/Arterial-priority.png "priority road sign"
 [no_entry]: ./images-from-the-web/Do-Not-Enter.png "no entry sign"
 [right_of_way]: ./images-from-the-web/right-of-way.png "right of way sign"
+[speed_100]: ./images-from-the-web/speed-100.png "100 kph sign"
+[caution_tricky]: ./images-from-the-web/caution.png "tricky caution sign"
+[crossing]: ./images-from-the-web/elderly-crossing.png "tricky crossing sign"
+[speed_130]: ./images-from-the-web/speed-130.png "tricky 130 kph sign"
+[work_speed_30]: ./images-from-the-web/work-and-speed-30.png "tricky work and speed sign"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -183,15 +188,25 @@ If an iterative approach was chosen:
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web (shrunk to 32x32 for processing):
+I chose 10 German traffic signs: 6 that should be easily identifiable, and 5 that should not. All
+were shrunk to 32x32 for processing.
+
+Here are the six hopefully easy to identify signs:
 
 ![alt_text][stop]
 ![alt_text][caution]
 ![alt_text][priority_road]
 ![alt_text][no_entry]
 ![alt_text][right_of_way]
+![alt_text][speed_100]
 
-The first image might be difficult to classify because ...
+The four signs that should be difficult to identify are:
+
+![alt_text][caution_tricky]
+![alt_text][work_speed_30]
+![alt_text][speed_130]
+![alt_text][crossing]
+
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
