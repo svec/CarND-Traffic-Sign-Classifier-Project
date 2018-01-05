@@ -193,19 +193,19 @@ were shrunk to 32x32 for processing.
 
 Here are the six hopefully easy to identify signs:
 
-![alt_text][stop]
-![alt_text][caution]
-![alt_text][priority_road]
-![alt_text][no_entry]
-![alt_text][right_of_way]
-![alt_text][speed_100]
+1. ![alt_text][stop]
+2. ![alt_text][caution]
+3. ![alt_text][priority_road]
+4. ![alt_text][no_entry]
+5. ![alt_text][right_of_way]
+6. ![alt_text][speed_100]
 
-The four signs that should be difficult to identify are:
+The four signs that should be difficult or impossible to identify are:
 
-![alt_text][caution_tricky]
-![alt_text][work_speed_30]
-![alt_text][speed_130]
-![alt_text][crossing]
+7. ![alt_text][caution_tricky]
+8. ![alt_text][work_speed_30]
+9. ![alt_text][speed_130]
+10. ![alt_text][crossing]
 
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
@@ -214,14 +214,19 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| 1. stop           	| stop |
+| 2. caution            | caution |
+| 3. priority road      | priority road |
+| 4. no entry           | no entry |
+| 5. right of way       | right of way |
+| 6. 100 kph            | 20 kph |
+| 7. caution with another sign under it | bumpy road |
+| 8. road work and 30 kph | go straight or right |
+| 9. 130 kph            | 30 kph |
+| 10. elderly crossing  | children crossing |
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 6 of the 10 traffic signs, which gives an accuracy of 60%. This compares favorably to the accuracy on the test set of ...
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
