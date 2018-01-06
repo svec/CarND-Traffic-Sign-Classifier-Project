@@ -33,6 +33,17 @@ The goals / steps of this project are the following:
 [crossing]: ./images-from-the-web/elderly-crossing.png "tricky crossing sign"
 [speed_130]: ./images-from-the-web/speed-130.png "tricky 130 kph sign"
 [work_speed_30]: ./images-from-the-web/work-and-speed-30.png "tricky work and speed sign"
+[1_stop_bar]: ./report-images/1-stop-bar.png "stop top_k bar chart"
+[2_caution_bar]: ./report-images/2-caution-bar.png "caution top_k bar chart"
+[3_priority_bar]: ./report-images/3-priority-bar.png "priority top_k bar chart"
+[4_do_not_enter_bar]: ./report-images/4-do-not-enter-bar.png "no entry top_k bar chart"
+[5_right_of_way_bar]: ./report-images/5-right-of-way-bar.png "right of way top_k bar chart"
+[6_speed_100_bar]: ./report-images/6-speed-100-bar.png "100 km/h top_k bar chart"
+[7_caution_extra_bar]: ./report-images/7-caution-extra-bar.png "caution extra top_k bar chart"
+[8_work_and_speed_30_bar]: ./report-images/8-work-and-speed-30-bar.png "work and 30 km/h top_k bar chart"
+[9_speed_130_bar]: ./report-images/9-speed-130-bar.png "130 km/h top_k bar chart"
+[10_elderly_crossing_bar]: ./report-images/10-elderly-crossing-bar.png "elderly crossing top_k bar chart"
+
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -188,7 +199,7 @@ If an iterative approach was chosen:
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-I chose 10 German traffic signs: 6 that should be easily identifiable, and 5 that should not. All
+I chose 10 German traffic signs: 6 that should be easily identifiable, and 4 that should not. All
 were shrunk to 32x32 for processing.
 
 Here are the six hopefully easy to identify signs:
@@ -212,40 +223,126 @@ The four signs that should be difficult or impossible to identify are:
 
 Here are the results of the prediction:
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 1. stop           	| stop |
-| 2. caution            | caution |
-| 3. priority road      | priority road |
-| 4. no entry           | no entry |
-| 5. right of way       | right of way |
-| 6. 100 kph            | 20 kph |
-| 7. caution with another sign under it | bumpy road |
-| 8. road work and 30 kph | go straight or right |
-| 9. 130 kph            | 30 kph |
-| 10. elderly crossing  | children crossing |
+| Image			        |     Prediction	        					|  Correct? |
+|:----------------------|:----------------------------------------------|:----------|
+| 1. stop           	| stop | yes |
+| 2. caution            | caution | yes |
+| 3. priority road      | priority road | yes |
+| 4. no entry           | no entry | yes |
+| 5. right of way       | right of way | yes |
+| 6. 100 kph            | 20 kph | no |
+| 7. caution with another sign under it | bumpy road | no |
+| 8. road work and 30 kph | go straight or right | yes |
+| 9. 130 kph            | 30 kph | no |
+| 10. elderly crossing  | children crossing | no |
 
 
-The model was able to correctly guess 6 of the 10 traffic signs, which gives an accuracy of 60%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly predict 6 of the 10 traffic signs, which gives an accuracy of 60%.
+This is worse than the overall test accuracy, but it's not surprising because 4 of the signs were
+not in the training set: I chose them to see what would happen. What was surprising is that one of
+the images I thought would be easy to predict was predicted incorrectly, and one of the images I
+thought would be difficult to predict was predicted correctly. Read on for an image-by-image
+breakdown.
+
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Jupyter notebook.
+##### Correct Predictions
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+First let's look at the 6 images that the network predicted correctly. You can see the top_k bar
+charts for each image show the correct prediction is the clear winner:
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+---
+![alt_text][stop]
 
+![alt_text][1_stop_bar]
+---
+![alt_text][caution]
 
-For the second image ... 
+![alt_text][2_caution_bar]
+---
+![alt_text][priority_road]
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Jupyter notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+![alt_text][3_priority_bar]
+---
+![alt_text][no_entry]
 
+![alt_text][4_do_not_enter_bar]
+---
+![alt_text][right_of_way]
 
+![alt_text][5_right_of_way_bar]
+---
+![alt_text][work_speed_30]
+
+![alt_text][8_work_and_speed_30_bar]
+---
+
+The last image is a road work sign over a 30 km/h sign. I decided the single correct sign type was
+road work, and the network predicted that with 61% certainty. Since the network was only trained to
+recognize images with single signs this wasn't exactly fair, but I'm impressed that the network was
+able to filter the top road work sign out of the rest of the image.
+
+Besides the combined road work + 30 km/h sign, I'm not surprised that my network did very well on
+predicted these 6 signs. They were all bright, clear images without the sign fully visible.
+
+I expect similar network performance from similarly "easy" signs.
+
+##### Incorrect Predictions
+
+###### Should Have Been Easy...
+
+I expected this 100 km/h sign to predict correctly, but as you can see from the top_k bar chart the
+network was very confidently incorrect and thought it was a 20 km/h sign:
+
+![alt_text][speed_100]
+
+![alt_text][6_speed_100_bar]
+
+I expected the network to predict this 100 km/h sign easily, but it was way off. I don't know why:
+perhaps the image has some noise that I can't see visually, but that threw the network off? Perhaps
+the neural network doesn't like driving that fast? I'd love to know if you, my reviewer, have any
+guesses that are more informed than mine.
+
+###### Unfair Images
+
+The remaining 3 images were not predicted correctly, but they were horribly unfair, so I can't
+blame the network.
+
+This caution sign has another sign right below it, and the top of the caution sign was cut off as
+well. The network was thoroughly confused, as you can
+see by the 36%, 31%, 16%, 10%, and 5% predictions in the top_k bar chart:
+
+![alt_text][caution_tricky]
+
+![alt_text][7_caution_extra_bar]
+
+I had hoped the network wold be able to isolate the top caution sign, but it wasn't able to. Perhaps the
+sign was missing too much at the top, or perhaps the sign below it threw off the network.
+
+---
+
+This 130 km/h sign wasn't in the training data, but I used it to see what would happen. The network
+surprised me and identified the top 2 priorities as a 120 km/h sign and a 30 km/h sign:
+
+![alt_text][speed_130]
+
+![alt_text][9_speed_130_bar]
+
+120 km/h and 30 km/h are excellent guesses. I can see that "120" and "30" look a lot like "130". The
+last 3 top_k predictions are also speed limit signs: the network clearly identified a speed limit
+sign, and made a good attempt at figuring out which on of its known classes it was.
+
+---
+
+The last sign is the least fair of all: an "elderly crossing" sign. I don't even know
+if it's real, it could be photoshopped. But I found it on the internet and so I decided to give it a
+try.
+
+![alt_text][crossing]
+
+![alt_text][10_elderly_crossing_bar]
+
+Once again I'm impressed by my network: the top two guesses are crossing signs, and visually I can
+squint at the bicycle and children crossing signs and see that they look kind of like the elderly
+crossing sign. The top
