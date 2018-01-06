@@ -343,6 +343,8 @@ try.
 
 ![alt_text][10_elderly_crossing_bar]
 
-Once again I'm impressed by my network: the top two guesses are crossing signs, and visually I can
-squint at the bicycle and children crossing signs and see that they look kind of like the elderly
-crossing sign. The top
+Once again I'm impressed by my network: the top two guesses are crossing signs,
+and visually I can squint at the bicycle and children crossing signs and see
+that they look kind of like the elderly crossing sign. The top_k percentages
+are low, showing that the network wasn't sure of its predictions, but it gave a
+great effort.
